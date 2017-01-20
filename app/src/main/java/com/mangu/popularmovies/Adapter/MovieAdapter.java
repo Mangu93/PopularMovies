@@ -1,12 +1,14 @@
 package com.mangu.popularmovies.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.mangu.popularmovies.R;
 
@@ -15,15 +17,15 @@ import com.mangu.popularmovies.R;
  */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
-    private ImageView[] listOfImages;
+    private Bitmap[] listOfImages;
 
     private final MovieAdapterOnClickHandler mClickHandler;
 
     public interface MovieAdapterOnClickHandler {
         void onClick(String title);
     }
-    public MovieAdapter(MovieAdapterOnClickHandler mClickHandler) {
-        this.mClickHandler = mClickHandler;
+    public MovieAdapter(MovieAdapterOnClickHandler ClickHandler) {
+        mClickHandler = ClickHandler;
     }
     @Override
     public MovieAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,8 +39,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
-        ImageView poster = listOfImages[position];
-        holder.image_view_poster.setImageBitmap(poster.getDrawingCache());
+        Bitmap poster = listOfImages[position];
+        holder.image_view_poster.setImageBitmap(poster);
+        holder.image_view_poster.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -46,15 +49,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         if(this.listOfImages == null) return 0;
         return this.listOfImages.length;
     }
-    public void setImageData(ImageView [] imageData) {
+
+    public void setImageData(Bitmap[] imageData) {
         this.listOfImages = imageData;
         notifyDataSetChanged();
     }
 
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView image_view_poster;
-        private String movie_title;
-        private String url;
 
         public MovieAdapterViewHolder(View itemView) {
             super(itemView);
@@ -65,6 +67,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         @Override
         public void onClick(View view) {
             Log.i(this.getClass().getName(), "Clicked on poster");
+            Toast.makeText(view.getContext(), "Clicked on poster "+image_view_poster.getHeight(), Toast.LENGTH_SHORT).show();
         }
     }
 }

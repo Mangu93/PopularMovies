@@ -28,9 +28,6 @@ import static com.mangu.popularmovies.BuildConfig.THE_MOVIE_DB_API_TOKEN;
  */
 
 public class NetworkUtilities {
-    private String mode = "";
-    private static String key = THE_MOVIE_DB_API_TOKEN;
-
     public static JSONObject getJSONfromAPI (String mode, String popular, String top_rated) {
         Uri uri;
         JSONObject json = new JSONObject();
@@ -70,14 +67,5 @@ public class NetworkUtilities {
         }
     }
 
-    public static Bitmap downloadBitmap(String url) {
-        Bitmap bitmap = null;
-        try {
 
-            bitmap = BitmapFactory.decodeStream(new URL(url).openConnection().getInputStream());
-        }catch (IOException ex) {
-            Log.e(ex.getClass().getSimpleName(), ex.getMessage());
-        }
-        return bitmap;
-    }
 }

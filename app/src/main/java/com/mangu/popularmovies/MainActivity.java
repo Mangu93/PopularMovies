@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.koushikdutta.ion.Ion;
 import com.mangu.popularmovies.Adapter.MovieAdapter;
@@ -24,6 +25,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @BindString(R.string.base_url_poster_tmdb) String base_url_poster_tmdb;
     private ImageView[] array_images;
     private String[] array_images_url;
+    private Bitmap[] array_bitmap;
     // TODO CONSIGUES URLS Y LAS VAS BAJANDO.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +110,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                         JSONArray array_movies = json_data.getJSONArray("results");
                         array_images_url = new String[array_movies.length()];
                         array_images = new ImageView[array_movies.length()];
+                        array_bitmap = new Bitmap[array_movies.length()];
                         for(int position = 0; position < array_movies.length(); position++) {
 
                             JSONObject movie = array_movies.getJSONObject(position);
                             String poster_path = movie.getString("poster_path");
                             array_images_url[position] = base_url_poster_tmdb+poster_path;
+                            try {
+                                Bitmap bitmap = Picasso.with(getApplicationContext()).load(array_images_url[position]).get();
+                                Log.i(TAG, "Height: "+bitmap.getHeight() + ". Width: "+bitmap.getWidth());
+                                array_bitmap[position] = bitmap;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Log.e(TAG, e.getMessage());                            }
                         }
                     } catch (JSONException e) {
                         Log.e(e.getClass().getSimpleName(), e.getMessage());
@@ -129,9 +141,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 showPosterDataView();
                 for(int i = 0; i< array_images_url.length; i++) {
                     array_images[i] = new ImageView(getApplicationContext());
-                    Picasso.with(getApplicationContext()).load(array_images_url[i]).into(array_images[i]);
+                    array_images[i].setImageBitmap(array_bitmap[i]);
                 }
-                movieAdapter.setImageData(array_images);
+                movieAdapter.setImageData(array_bitmap);
             }else{
                 showError();
             }
@@ -166,6 +178,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public void onClick(String title) {
-
+        Toast.makeText(getApplicationContext(), "Made you click", Toast.LENGTH_LONG).show();
     }
 }
