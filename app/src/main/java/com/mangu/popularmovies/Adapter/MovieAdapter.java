@@ -18,7 +18,7 @@ import com.mangu.popularmovies.R;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
     private Bitmap[] listOfImages;
-
+    private int contador = 0;
     private final MovieAdapterOnClickHandler mClickHandler;
 
     public interface MovieAdapterOnClickHandler {
@@ -32,7 +32,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         Context context = parent.getContext();
         int layoutIdForItem = R.layout.movie_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
-
         View view = inflater.inflate(layoutIdForItem, parent, false);
         return new MovieAdapterViewHolder(view);
     }
@@ -42,6 +41,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         Bitmap poster = listOfImages[position];
         holder.image_view_poster.setImageBitmap(poster);
         holder.image_view_poster.setVisibility(View.VISIBLE);
+        holder.image_view_poster.setAdjustViewBounds(true);
     }
 
     @Override
@@ -57,17 +57,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView image_view_poster;
-
+        private int anInt;
         public MovieAdapterViewHolder(View itemView) {
             super(itemView);
             image_view_poster = (ImageView) itemView.findViewById(R.id.image_view_poster);
             itemView.setOnClickListener(this);
+            anInt = contador;
+            contador++;
         }
 
         @Override
         public void onClick(View view) {
             Log.i(this.getClass().getName(), "Clicked on poster");
-            Toast.makeText(view.getContext(), "Clicked on poster "+image_view_poster.getHeight(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Clicked on poster "+anInt, Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ImageView[] array_images;
     private String[] array_images_url;
     private Bitmap[] array_bitmap;
-    // TODO CONSIGUES URLS Y LAS VAS BAJANDO.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
