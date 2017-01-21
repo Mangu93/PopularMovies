@@ -2,29 +2,20 @@ package com.mangu.popularmovies.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.IntegerRes;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.mangu.popularmovies.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-/**
- * Created by Adrian Portillo on 20/01/2017.
- */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
     private Bitmap[] listOfImages;
+    private int counter = 0;
     private JSONArray listOfJSON;
-    private int contador = 0;
     private final MovieAdapterOnClickHandler mClickHandler;
 
     public interface MovieAdapterOnClickHandler {
@@ -74,8 +65,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
             super(itemView);
             image_view_poster = (ImageView) itemView.findViewById(R.id.image_view_poster);
             itemView.setOnClickListener(this);
-            anInt = contador;
-            contador++;
+            anInt = counter;
+            counter++;
         }
 
         @Override

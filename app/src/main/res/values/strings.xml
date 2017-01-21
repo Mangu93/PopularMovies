@@ -11,7 +11,18 @@
     <string name="highest_rated">Order by highest rated</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_movie_detail">MovieDetail</string>
-    <string name="action_settings">Settings</string>
+    <string name="rates">rates</string>
+    <string name="results">results</string>
+    <string name="poster_path">poster_path</string>
+    <string name="Height">"Height: "</string>
+    <string name="Width">". Width: "</string>
+    <string name="popular">popular</string>
+    <string name="picture">picture</string>
+    <string name="original_title">original_title</string>
+    <string name="release_date">release_date</string>
+    <string name="vote_average">vote_average</string>
+    <string name="overview">overview</string>
+    <string name="api_key">api_key</string>
+    <string name="no_connection">No connection available</string>
 </resources>
