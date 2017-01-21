@@ -37,6 +37,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler{
     private static final String TAG = MainActivity.class.getSimpleName();
     private String order_by = "rates"; //default is rating
+    private Menu menuSettings;
     @BindView(R.id.recyclerview_movies)
     RecyclerView mRecyclerView;
     private MovieAdapter movieAdapter;
@@ -158,22 +159,28 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.menuSettings = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
         switch (id) {
             case R.id.highest_rated:
+                menuSettings.findItem(R.id.highest_rated).setVisible(false);
+                menuSettings.findItem(R.id.most_popular).setVisible(true);
                 order_by = "rates";
                 loadPosters();
+                mRecyclerView.smoothScrollToPosition(0);
                 return true;
             case R.id.most_popular:
+                menuSettings.findItem(R.id.highest_rated).setVisible(true);
+                menuSettings.findItem(R.id.most_popular).setVisible(false);
                 order_by = "popular";
                 loadPosters();
+                mRecyclerView.smoothScrollToPosition(0);
                 return true;
             default:
                 break;
