@@ -2,6 +2,7 @@ package com.mangu.popularmovies.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.annotation.IntegerRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,12 +13,17 @@ import android.widget.Toast;
 
 import com.mangu.popularmovies.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Adrian Portillo on 20/01/2017.
  */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
     private Bitmap[] listOfImages;
+    private JSONArray listOfJSON;
     private int contador = 0;
     private final MovieAdapterOnClickHandler mClickHandler;
 
@@ -55,9 +61,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         notifyDataSetChanged();
     }
 
+    public void setJSONData(JSONArray jsonData) {
+        this.listOfJSON = jsonData;
+        notifyDataSetChanged();
+    }
+
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView image_view_poster;
         private int anInt;
+
         public MovieAdapterViewHolder(View itemView) {
             super(itemView);
             image_view_poster = (ImageView) itemView.findViewById(R.id.image_view_poster);
@@ -68,8 +80,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
         @Override
         public void onClick(View view) {
-            Log.i(this.getClass().getName(), "Clicked on poster");
-            Toast.makeText(view.getContext(), "Clicked on poster "+anInt, Toast.LENGTH_SHORT).show();
+            int adapterPosition = getAdapterPosition();
+            mClickHandler.onClick(Integer.toString(adapterPosition));
         }
     }
 }

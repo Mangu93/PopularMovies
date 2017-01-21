@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">Popular Movies</string>
-    <string name="action_settings">Settings</string>
     <!-- URL for posters-->
     <string name="base_url_poster_tmdb">http://image.tmdb.org/t/p/w185/</string>
-    <string name="poster_recommended_size">w185/</string>
+    <string name="url_poster_bigger">http://image.tmdb.org/t/p/w500/</string>
     <!-- Example: http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg -->
     <string name="popular_movie_url">https://api.themoviedb.org/3/movie/popular</string>
     <string name="top_rated_url">https://api.themoviedb.org/3/movie/top_rated</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="error">An error has occurred.</string>
     <string name="most_popular">Order by most popular</string>
     <string name="highest_rated">Order by highest rated</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_movie_detail">MovieDetail</string>
+    <string name="action_settings">Settings</string>
 </resources>

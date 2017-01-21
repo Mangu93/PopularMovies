@@ -1,6 +1,7 @@
 package com.mangu.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import butterknife.BindString;
@@ -44,9 +46,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     TextView mTvError;
     private ImageView poster_movie;
     @BindString(R.string.base_url_poster_tmdb) String base_url_poster_tmdb;
+    @BindString(R.string.url_poster_bigger) String url_bigger;
     private ImageView[] array_images;
     private String[] array_images_url;
     private Bitmap[] array_bitmap;
+    private JSONArray array_json;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -107,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 if(json_data.length() != 0) {
                     try {
                         JSONArray array_movies = json_data.getJSONArray("results");
+                        array_json = array_movies;
                         array_images_url = new String[array_movies.length()];
                         array_images = new ImageView[array_movies.length()];
                         array_bitmap = new Bitmap[array_movies.length()];
@@ -143,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     array_images[i].setImageBitmap(array_bitmap[i]);
                 }
                 movieAdapter.setImageData(array_bitmap);
+                movieAdapter.setJSONData(array_json);
             }else{
                 showError();
             }
@@ -176,7 +182,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     @Override
-    public void onClick(String title) {
-        Toast.makeText(getApplicationContext(), "Made you click", Toast.LENGTH_LONG).show();
+    public void onClick(String position) {
+        Context context = this;
+        Intent destiny = new Intent(context, MovieDetail.class);
+        Integer integer = Integer.valueOf(position);
+        try {
+            destiny.putExtra(Intent.EXTRA_TEXT, array_json.getJSONObject(integer).toString());
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            array_bitmap[integer].compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            destiny.putExtra("picture", byteArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        startActivity(destiny);
     }
 }
