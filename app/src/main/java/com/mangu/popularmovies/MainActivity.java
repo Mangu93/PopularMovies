@@ -223,6 +223,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             destiny.putExtra(getString(R.string.picture), byteArray);
         } catch (JSONException e) {
             e.printStackTrace();
+        }catch (NullPointerException ex) {
+            //This happens if, somehow, some image was not loaded, so, refresh
+            loadPosters();
         }
         startActivity(destiny);
     }
