@@ -32,13 +32,31 @@
                 android:contentDescription="@string/error"
                 />
 
-            <TextView
-                android:text="@string/error"
-                android:layout_width="wrap_content"
+            <LinearLayout
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:id="@+id/tv_main_info"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:layout_width="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="@string/error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:id="@+id/tv_main_info"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mark_favorite"
+                    android:id="@+id/bt_mark"
+                    android:layout_marginTop="@dimen/tv_padding"
+                    android:layout_marginLeft="@dimen/tv_padding"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    android:background="@color/bt_fav"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
 
