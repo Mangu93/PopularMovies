@@ -1,59 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+
     <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/center_point"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerInParent="true"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/center_point"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal" />
 
 
         <LinearLayout
+            android:id="@+id/top_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/top_linear"
 
-            android:orientation="horizontal"
             android:layout_above="@+id/center_point"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true">
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
             <ImageView
+                android:id="@+id/image_poster_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/image_poster_detail"
-                android:contentDescription="@string/error"
-                />
+                android:contentDescription="@string/error" />
 
             <LinearLayout
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="@string/error"
+                    android:id="@+id/tv_main_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:id="@+id/tv_main_info"
+                    android:text="@string/error"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mark_favorite"
                     android:id="@+id/bt_mark"
-                    android:layout_marginTop="@dimen/tv_padding"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/tv_padding"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    android:layout_marginTop="@dimen/tv_padding"
                     android:background="@color/bt_fav"
+                    android:text="@string/mark_favorite"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    android:onClick="markAsFavorite"
                     />
             </LinearLayout>
 
@@ -63,16 +65,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/top_linear"
-            android:layout_alignParentEnd="true">
+            android:orientation="horizontal">
+
             <TextView
+                android:id="@+id/tv_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_description"
-                android:textStyle="bold"
                 android:contentDescription=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold" />
         </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
 </ScrollView>

@@ -13,4 +13,10 @@
         android:title="@string/highest_rated"
         android:visible="false"
         />
+
+    <item
+        android:id="@+id/favorite_movies"
+        android:orderInCategory="3"
+        android:title="@string/show_favorites"
+        />
 </menu>
