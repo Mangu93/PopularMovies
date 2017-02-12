@@ -39,6 +39,8 @@ public class MovieDetail extends AppCompatActivity {
     String url_bigger;
     @BindView(R.id.bt_mark)
     Button tv_mark;
+    @BindView(R.id.tv_trailers)
+    TextView tv_trailers;
     JSONObject movie_json;
     boolean already_favorite = false;
     long _id;
@@ -121,5 +123,11 @@ public class MovieDetail extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    public void finish() {
+        setResult(1);
+        super.finish();
     }
 }

@@ -43,7 +43,8 @@ import static com.mangu.popularmovies.BuildConfig.THE_MOVIE_DB_API_TOKEN;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
     private static final String TAG = MainActivity.class.getSimpleName();
-    private String order_by = ""; //default is rating
+    public static final int REQUEST_CODE = 567;
+    private String order_by = "rates"; //default is rating
     private Menu menuSettings;
     @BindView(R.id.recyclerview_movies)
     RecyclerView mRecyclerView;
@@ -86,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onResume() {
         super.onResume();
-        loadFavorites();
     }
 
     private boolean isNetworkAvailable() {
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Override
         protected void onPostExecute(Void aVoid) {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (array_images != null) {
+            if (has_favorites) {
                 showPosterDataView();
                 for (int i = 0; i < array_images_url.length; i++) {
                     array_images[i] = new ImageView(getApplicationContext());
@@ -197,11 +197,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 movieAdapter.setImageData(array_bitmap);
                 movieAdapter.setJSONData(array_json);
             } else {
-                if(has_favorites) {
-                    showError();
-                }else{
                     showNoFavorites();
-                }
+
             }
         }
     }
@@ -349,7 +346,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             //This happens if, somehow, some image was not loaded, so, refresh
             loadPosters();
         }
-        startActivity(destiny);
+        startActivityForResult(destiny, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if(order_by == getString(R.string.favorites)) {
+                loadFavorites();
+            }
+        }
     }
 
     private JSONObject getJSONfromAPI(String mode, String popular, String top_rated) {
