@@ -6,10 +6,13 @@
     <!-- Example: http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg -->
     <string name="popular_movie_url">https://api.themoviedb.org/3/movie/popular</string>
     <string name="top_rated_url">https://api.themoviedb.org/3/movie/top_rated</string>
+    <string name="trailers_url">https://api.themoviedb.org/3/movie/{movie_id}/videos</string>
+    <string name="youtube_watch">https://www.youtube.com/watch</string>
+    <string name="youtube_watch_key_parameter">v</string>
     <string name="error">An error has occurred.</string>
     <string name="most_popular">Order by most popular</string>
     <string name="highest_rated">Order by highest rated</string>
-
+    <string name="movie_id_replace">{movie_id}</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_movie_detail">MovieDetail</string>
     <string name="rates">rates</string>
@@ -31,4 +34,6 @@
     <string name="favorites">favorites</string>
     <string name="no_favorites">You have no favorites movies, but you can add them anytime.</string>
     <string name="remove_favorite">Remove from favorites</string>
+    <string name="Trailer">Trailer</string>
+    <string name="play_the_trailer_content_description">Play the trailer</string>
 </resources>

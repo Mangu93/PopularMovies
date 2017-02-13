@@ -11,11 +11,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-/**
- * Created by Adrian Portillo on 12/02/2017.
- */
 
-public class FavoritesContentProvider  extends ContentProvider{
+public class FavoritesContentProvider extends ContentProvider {
 
     public static final int FAVORITES = 300;
     public static final int FAVORITE_WITH_ID = 301;
@@ -55,7 +52,7 @@ public class FavoritesContentProvider  extends ContentProvider{
         switch (match) {
             // Query for the tasks directory
             case FAVORITES:
-                retCursor =  db.query(FavoritesContract.FavoritesEntry.TABLE_NAME,
+                retCursor = db.query(FavoritesContract.FavoritesEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -93,12 +90,12 @@ public class FavoritesContentProvider  extends ContentProvider{
                 long _id = db.insertWithOnConflict(FavoritesContract.FavoritesEntry.TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
                 if (_id > 0) {
                     returnUri = ContentUris.withAppendedId(FavoritesContract.FavoritesEntry.CONTENT_URI, _id);
-                }else {
+                } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
                 break;
             default:
-                throw new UnsupportedOperationException("This should not happen "+uri.toString());
+                throw new UnsupportedOperationException("This should not happen " + uri.toString());
         }
 
         getContext().getContentResolver().notifyChange(uri, null);
@@ -107,12 +104,12 @@ public class FavoritesContentProvider  extends ContentProvider{
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
+    public int delete(@NonNull Uri uri, String s, String[] strings) {
         final SQLiteDatabase db = mFavoritesDbHelper.getReadableDatabase();
         int match = sUriMatcher.match(uri);
         // Keep track of the number of deleted tasks
         int tasksDeleted; // starts as 0
-        switch (match){
+        switch (match) {
             case FAVORITE_WITH_ID:
                 String id = uri.getPathSegments().get(1);
                 tasksDeleted = db.delete(FavoritesContract.FavoritesEntry.TABLE_NAME, "_id=?", new String[]{id});

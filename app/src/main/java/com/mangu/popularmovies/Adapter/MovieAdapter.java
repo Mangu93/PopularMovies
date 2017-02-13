@@ -13,17 +13,15 @@ import com.mangu.popularmovies.R;
 import org.json.JSONArray;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
+    private final MovieAdapterOnClickHandler mClickHandler;
     private Bitmap[] listOfImages;
     private int counter = 0;
     private JSONArray listOfJSON;
-    private final MovieAdapterOnClickHandler mClickHandler;
 
-    public interface MovieAdapterOnClickHandler {
-        void onClick(String title);
-    }
     public MovieAdapter(MovieAdapterOnClickHandler ClickHandler) {
         mClickHandler = ClickHandler;
     }
+
     @Override
     public MovieAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -43,7 +41,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     @Override
     public int getItemCount() {
-        if(this.listOfImages == null) return 0;
+        if (this.listOfImages == null) return 0;
         return this.listOfImages.length;
     }
 
@@ -55,6 +53,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     public void setJSONData(JSONArray jsonData) {
         this.listOfJSON = jsonData;
         notifyDataSetChanged();
+    }
+
+    public interface MovieAdapterOnClickHandler {
+        void onClick(String title);
     }
 
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

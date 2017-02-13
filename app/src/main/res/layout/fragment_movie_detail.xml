@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
         <LinearLayout
             android:id="@+id/center_point"
             android:layout_width="0dp"
@@ -20,15 +19,14 @@
             android:id="@+id/top_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/tv_padding"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/tv_padding">
 
             <ImageView
                 android:id="@+id/image_poster_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/error"
-                />
+                android:contentDescription="@string/error" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -50,10 +48,9 @@
                     android:layout_marginLeft="@dimen/tv_padding"
                     android:layout_marginTop="@dimen/tv_padding"
                     android:background="@color/bt_fav"
-                    android:text="@string/mark_favorite"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
                     android:onClick="markAsFavorite"
-                    />
+                    android:text="@string/mark_favorite"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button" />
             </LinearLayout>
 
 
@@ -63,33 +60,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="@dimen/tv_padding"
-            >
+            android:paddingTop="@dimen/tv_padding">
 
             <TextView
                 android:id="@+id/tv_description"
+                style="@style/tv_padding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription=""
-                style="@style/tv_padding"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textStyle="bold" />
-            <View style="@style/Divider"/>
+
+            <View style="@style/Divider" />
+
             <TextView
+                android:id="@+id/tv_trailers"
+                style="@style/tv_padding"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                style="@style/tv_padding"
-                android:id="@+id/tv_trailers"
                 android:text="@string/tv_trailers"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/recyclerview_trailers"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 </ScrollView>

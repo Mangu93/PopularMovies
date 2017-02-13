@@ -30,12 +30,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mangu.popularmovies.MainActivity" />
         </activity>
-        
+
         <provider
-            android:authorities="com.mangu.popularmovies"
             android:name="com.mangu.popularmovies.Data.FavoritesContentProvider"
-            android:exported="false"
-            />
+            android:authorities="com.mangu.popularmovies"
+            android:exported="false" />
     </application>
 
 </manifest>

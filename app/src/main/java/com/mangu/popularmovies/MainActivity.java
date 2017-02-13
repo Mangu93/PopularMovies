@@ -42,23 +42,23 @@ import butterknife.ButterKnife;
 import static com.mangu.popularmovies.BuildConfig.THE_MOVIE_DB_API_TOKEN;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
-    private static final String TAG = MainActivity.class.getSimpleName();
     public static final int REQUEST_CODE = 567;
-    private String order_by = "rates"; //default is rating
-    private Menu menuSettings;
+    private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.recyclerview_movies)
     RecyclerView mRecyclerView;
-    private MovieAdapter movieAdapter;
     @BindView(R.id.pb_loading_indicator)
     ProgressBar mLoadingIndicator;
     @BindView(R.id.tv_error)
     TextView mTvError;
-    private ImageView poster_movie;
-    private boolean has_favorites = false;
     @BindString(R.string.base_url_poster_tmdb)
     String base_url_poster_tmdb;
     @BindString(R.string.url_poster_bigger)
     String url_bigger;
+    private String order_by = "rates"; //default is rating
+    private Menu menuSettings;
+    private MovieAdapter movieAdapter;
+    private ImageView poster_movie;
+    private boolean has_favorites = false;
     private ImageView[] array_images;
     private String[] array_images_url;
     private Bitmap[] array_bitmap;
@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView.setLayoutManager(gridLayoutManager);
         movieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(movieAdapter);
-
         loadPosters();
     }
 
@@ -126,157 +125,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void loadFavorites() {
         showPosterDataView();
         new FavoritesFetcher(this.getApplicationContext(), this.poster_movie).execute();
-    }
-
-    public class FavoritesFetcher extends AsyncTask<Void, Integer, Void> {
-        Context context;
-        ImageView imageView;
-
-        FavoritesFetcher(Context context, ImageView imageView) {
-            this.context = context;
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            if (order_by == null) {
-                finish();
-            } else {
-                Cursor cursorFavorites = getContentResolver().query(FavoritesContract.FavoritesEntry.CONTENT_URI,
-                        null, null, null, null);
-
-                if (cursorFavorites.moveToFirst()) {
-                    array_images_url = new String[cursorFavorites.getCount()];
-                    array_images = new ImageView[cursorFavorites.getCount()];
-                    array_bitmap = new Bitmap[cursorFavorites.getCount()];
-                    array_json = new JSONArray();
-                    do {
-                        String data_json = cursorFavorites.getString(
-                                cursorFavorites.getColumnIndex(FavoritesContract.FavoritesEntry.COLUMN_JSON));
-                        try {
-                            //TODO Form in json_array a json array with all json's?
-                            int position = cursorFavorites.getPosition();
-                            JSONObject movie = new JSONObject(data_json);
-                            String poster_path = movie.getString(getString(R.string.poster_path));
-                            array_images_url[position] = base_url_poster_tmdb + poster_path;
-                            Bitmap bitmap = Picasso.with(getApplicationContext()).load(array_images_url[position]).get();
-                            Log.i(TAG, getString(R.string.Height) + bitmap.getHeight() + getString(R.string.Width) + bitmap.getWidth());
-                            array_bitmap[position] = bitmap;
-                            array_json.put(movie);
-                        } catch (JSONException | IOException ex) {
-                            Log.e(TAG, ex.getMessage());
-                            ex.printStackTrace();
-                            return null;
-                        }
-                    } while (cursorFavorites.moveToNext());
-                    has_favorites = true;
-                }else {
-
-                    has_favorites = false;
-                }
-                cursorFavorites.close();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (has_favorites) {
-                showPosterDataView();
-                for (int i = 0; i < array_images_url.length; i++) {
-                    array_images[i] = new ImageView(getApplicationContext());
-                    array_images[i].setImageBitmap(array_bitmap[i]);
-                }
-                movieAdapter.setImageData(array_bitmap);
-                movieAdapter.setJSONData(array_json);
-            } else {
-                    showNoFavorites();
-
-            }
-        }
-    }
-
-    public class PosterFetcher extends AsyncTask<Void, Integer, Void> {
-        Context context;
-        ImageView imageView;
-
-        PosterFetcher(Context context, ImageView imageView) {
-            this.context = context;
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            if (order_by == null) {
-                finish();
-            } else {
-
-                String popular = getResources().getString(R.string.popular_movie_url);
-                String rates = getResources().getString(R.string.top_rated_url);
-                JSONObject json_data = getJSONfromAPI(order_by, popular, rates);
-                if (json_data.length() != 0) {
-                    try {
-                        JSONArray array_movies = json_data.getJSONArray(getString(R.string.results));
-                        array_json = array_movies;
-                        array_images_url = new String[array_movies.length()];
-                        array_images = new ImageView[array_movies.length()];
-                        array_bitmap = new Bitmap[array_movies.length()];
-                        for (int position = 0; position < array_movies.length(); position++) {
-
-                            JSONObject movie = array_movies.getJSONObject(position);
-                            String poster_path = movie.getString(getString(R.string.poster_path));
-                            array_images_url[position] = base_url_poster_tmdb + poster_path;
-                            try {
-                                Bitmap bitmap = Picasso.with(getApplicationContext()).load(array_images_url[position]).get();
-                                Log.i(TAG, getString(R.string.Height) + bitmap.getHeight() + getString(R.string.Width) + bitmap.getWidth());
-                                array_bitmap[position] = bitmap;
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Log.e(TAG, e.getMessage());
-                            }
-                        }
-                    } catch (JSONException e) {
-                        Log.e(e.getClass().getSimpleName(), e.getMessage());
-                    }
-                }
-
-            }
-            return null;
-        }
-
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (array_images != null) {
-                showPosterDataView();
-                for (int i = 0; i < array_images_url.length; i++) {
-                    array_images[i] = new ImageView(getApplicationContext());
-                    array_images[i].setImageBitmap(array_bitmap[i]);
-                }
-                movieAdapter.setImageData(array_bitmap);
-                movieAdapter.setJSONData(array_json);
-            } else {
-                if(has_favorites) {
-                    showError();
-                }else{
-                    showNoFavorites();
-                }
-            }
-        }
     }
 
     private void showNoFavorites() {
@@ -352,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
-            if(order_by == getString(R.string.favorites)) {
+            if (order_by.equals(getString(R.string.favorites))) {
                 loadFavorites();
             }
         }
@@ -375,7 +223,159 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             json = new JSONObject(NetworkUtilities.getResponseFromHttpUrl(new URL(uri.toString())));
         } catch (IOException | JSONException malformed) {
             Log.e(malformed.toString(), malformed.getMessage());
+            malformed.printStackTrace();
         }
         return json;
+    }
+
+    public class FavoritesFetcher extends AsyncTask<Void, Integer, Void> {
+        Context context;
+        ImageView imageView;
+
+        FavoritesFetcher(Context context, ImageView imageView) {
+            this.context = context;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (order_by == null) {
+                finish();
+            } else {
+                Cursor cursorFavorites = getContentResolver().query(FavoritesContract.FavoritesEntry.CONTENT_URI,
+                        null, null, null, null);
+
+                if (cursorFavorites.moveToFirst()) {
+                    array_images_url = new String[cursorFavorites.getCount()];
+                    array_images = new ImageView[cursorFavorites.getCount()];
+                    array_bitmap = new Bitmap[cursorFavorites.getCount()];
+                    array_json = new JSONArray();
+                    do {
+                        String data_json = cursorFavorites.getString(
+                                cursorFavorites.getColumnIndex(FavoritesContract.FavoritesEntry.COLUMN_JSON));
+                        try {
+                            //TODO Form in json_array a json array with all json's?
+                            int position = cursorFavorites.getPosition();
+                            JSONObject movie = new JSONObject(data_json);
+                            String poster_path = movie.getString(getString(R.string.poster_path));
+                            array_images_url[position] = base_url_poster_tmdb + poster_path;
+                            Bitmap bitmap = Picasso.with(getApplicationContext()).load(array_images_url[position]).get();
+                            Log.i(TAG, getString(R.string.Height) + bitmap.getHeight() + getString(R.string.Width) + bitmap.getWidth());
+                            array_bitmap[position] = bitmap;
+                            array_json.put(movie);
+                        } catch (JSONException | IOException ex) {
+                            Log.e(TAG, ex.getMessage());
+                            ex.printStackTrace();
+                            return null;
+                        }
+                    } while (cursorFavorites.moveToNext());
+                    has_favorites = true;
+                } else {
+
+                    has_favorites = false;
+                }
+                cursorFavorites.close();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
+            if (has_favorites) {
+                showPosterDataView();
+                for (int i = 0; i < array_images_url.length; i++) {
+                    array_images[i] = new ImageView(getApplicationContext());
+                    array_images[i].setImageBitmap(array_bitmap[i]);
+                }
+                movieAdapter.setImageData(array_bitmap);
+                movieAdapter.setJSONData(array_json);
+            } else {
+                showNoFavorites();
+
+            }
+        }
+    }
+
+    public class PosterFetcher extends AsyncTask<Void, Integer, Void> {
+        Context context;
+        ImageView imageView;
+
+        PosterFetcher(Context context, ImageView imageView) {
+            this.context = context;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (order_by == null) {
+                finish();
+            } else {
+
+                String popular = getResources().getString(R.string.popular_movie_url);
+                String rates = getResources().getString(R.string.top_rated_url);
+                JSONObject json_data = getJSONfromAPI(order_by, popular, rates);
+                if (json_data.length() != 0) {
+                    try {
+                        JSONArray array_movies = json_data.getJSONArray(getString(R.string.results));
+                        array_json = array_movies;
+                        array_images_url = new String[array_movies.length()];
+                        array_images = new ImageView[array_movies.length()];
+                        array_bitmap = new Bitmap[array_movies.length()];
+                        for (int position = 0; position < array_movies.length(); position++) {
+
+                            JSONObject movie = array_movies.getJSONObject(position);
+                            String poster_path = movie.getString(getString(R.string.poster_path));
+                            array_images_url[position] = base_url_poster_tmdb + poster_path;
+                            try {
+                                Bitmap bitmap = Picasso.with(getApplicationContext()).load(array_images_url[position]).get();
+                                Log.i(TAG, getString(R.string.Height) + bitmap.getHeight() + getString(R.string.Width) + bitmap.getWidth());
+                                array_bitmap[position] = bitmap;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Log.e(TAG, e.getMessage());
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Log.e(e.getClass().getSimpleName(), e.getMessage());
+                    }
+                }
+
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
+            if (array_images != null) {
+                showPosterDataView();
+                for (int i = 0; i < array_images_url.length; i++) {
+                    array_images[i] = new ImageView(getApplicationContext());
+                    array_images[i].setImageBitmap(array_bitmap[i]);
+                }
+                movieAdapter.setImageData(array_bitmap);
+                movieAdapter.setJSONData(array_json);
+            } else {
+                if (has_favorites) {
+                    showError();
+                } else {
+                    showNoFavorites();
+                }
+            }
+        }
     }
 }
