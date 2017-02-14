@@ -82,10 +82,25 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textStyle="bold" />
         </LinearLayout>
-
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tv_reviews"
+                style="@style/tv_padding"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold"
+                android:text="@string/reviews"
+                />
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_trailers"
+            android:id="@+id/recyclerview_reviews"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            />
+        </LinearLayout>
+
+
 </ScrollView>

@@ -7,6 +7,7 @@
     <string name="popular_movie_url">https://api.themoviedb.org/3/movie/popular</string>
     <string name="top_rated_url">https://api.themoviedb.org/3/movie/top_rated</string>
     <string name="trailers_url">https://api.themoviedb.org/3/movie/{movie_id}/videos</string>
+    <string name="reviews_url">https://api.themoviedb.org/3/movie/{movie_id}/reviews</string>
     <string name="youtube_watch">https://www.youtube.com/watch</string>
     <string name="youtube_watch_key_parameter">v</string>
     <string name="error">An error has occurred.</string>
@@ -36,4 +37,5 @@
     <string name="remove_favorite">Remove from favorites</string>
     <string name="Trailer">Trailer</string>
     <string name="play_the_trailer_content_description">Play the trailer</string>
+    <string name="reviews">Reviews:</string>
 </resources>
