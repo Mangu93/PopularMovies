@@ -2,7 +2,6 @@ package com.mangu.popularmovies.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +21,17 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
     public DetailAdapter(DetailAdapterOnClickHandler ClickHandler) {
         mClickHandler = ClickHandler;
     }
+
     public void setTrailerList(String[] trailerList) {
         this.list_of_trailers = trailerList;
         notifyDataSetChanged();
     }
+
     public void setListHeaders(String[] headers) {
         this.list_of_headers = headers;
         notifyDataSetChanged();
     }
+
     @Override
     public DetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -47,7 +49,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
 
     @Override
     public int getItemCount() {
-        if(this.list_of_headers == null) return 0;
+        if (this.list_of_headers == null) return 0;
         else return list_of_headers.length;
     }
 
@@ -58,6 +60,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
     class DetailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView text_from_api;
         private String url_trailer;
+
         DetailViewHolder(View itemView) {
             super(itemView);
             text_from_api = (TextView) itemView.findViewById(R.id.tv_movies_trailer);

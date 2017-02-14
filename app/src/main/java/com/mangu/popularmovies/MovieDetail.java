@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 import static android.content.Intent.ACTION_VIEW;
 import static com.mangu.popularmovies.BuildConfig.THE_MOVIE_DB_API_TOKEN;
 
-public class MovieDetail extends AppCompatActivity implements DetailAdapter.DetailAdapterOnClickHandler, ReviewAdapter.ReviewAdapterOnClickHandler{
+public class MovieDetail extends AppCompatActivity implements DetailAdapter.DetailAdapterOnClickHandler, ReviewAdapter.ReviewAdapterOnClickHandler {
     @BindView(R.id.image_poster_detail)
     ImageView image_poster_detail;
 
@@ -248,14 +248,14 @@ public class MovieDetail extends AppCompatActivity implements DetailAdapter.Deta
         protected Void doInBackground(Void... voids) {
             JSONObject json_reviews = getReviewsFromApi();
             if (json_reviews != null) {
-                try{
+                try {
                     JSONArray jsonArray = json_reviews.getJSONArray("results");
                     list_of_reviews = new String[jsonArray.length()];
                     for (int index = 0; index < jsonArray.length(); index++) {
                         JSONObject leaf = jsonArray.getJSONObject(index);
                         list_of_reviews[index] = leaf.getString("content");
                     }
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     Log.e(MovieDetail.class.getSimpleName(), e.getMessage());
                     e.printStackTrace();
                 }
@@ -265,11 +265,12 @@ public class MovieDetail extends AppCompatActivity implements DetailAdapter.Deta
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if(list_of_reviews != null) {
+            if (list_of_reviews != null) {
                 mReviewAdapter.setListOfReviews(list_of_reviews);
             }
         }
     }
+
     public class TrailerClass extends AsyncTask<Void, Void, Void> {
 
 

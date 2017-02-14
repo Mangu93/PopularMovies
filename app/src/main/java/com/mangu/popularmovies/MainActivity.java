@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,9 +43,9 @@ import static com.mangu.popularmovies.BuildConfig.THE_MOVIE_DB_API_TOKEN;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
     public static final int REQUEST_CODE = 567;
-    private static final String TAG = MainActivity.class.getSimpleName();
     public static final String LYFECYCLE_CALLBACK_ARRAY_JSON = "json-array";
     public static final String LYFECYCLE_CALLBACK_ARRAY_BITMAP = "bitmaps";
+    private static final String TAG = MainActivity.class.getSimpleName();
     private static final String LYFECYCLE_CALLBACK_LENGTH = "array-length";
     @BindView(R.id.recyclerview_movies)
     RecyclerView mRecyclerView;
@@ -84,9 +83,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView.setLayoutManager(gridLayoutManager);
         movieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(movieAdapter);
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             loadPosters();
-        }else {
+        } else {
             if (savedInstanceState.containsKey(LYFECYCLE_CALLBACK_ARRAY_BITMAP) &&
                     savedInstanceState.containsKey(LYFECYCLE_CALLBACK_LENGTH) &&
                     savedInstanceState.containsKey(LYFECYCLE_CALLBACK_ARRAY_JSON)) {
@@ -111,15 +110,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(array_bitmap != null && array_json != null) {
+        if (array_bitmap != null && array_json != null) {
             outState.putInt(LYFECYCLE_CALLBACK_LENGTH, array_bitmap.length);
             outState.putParcelableArray(LYFECYCLE_CALLBACK_ARRAY_BITMAP, array_bitmap);
             outState.putString(LYFECYCLE_CALLBACK_ARRAY_JSON, array_json.toString());
         }
 
     }
-
-
 
 
     @Override

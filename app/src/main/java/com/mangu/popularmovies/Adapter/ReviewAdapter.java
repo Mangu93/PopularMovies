@@ -20,7 +20,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         mClickHandler = ClickHandler;
     }
 
-    public void setListOfReviews(String [] reviews) {
+    public void setListOfReviews(String[] reviews) {
         list_of_reviews = reviews;
         notifyDataSetChanged();
     }
@@ -41,7 +41,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     @Override
     public int getItemCount() {
-        if(list_of_reviews == null) return 0;
+        if (list_of_reviews == null) return 0;
         else return list_of_reviews.length;
     }
 
@@ -52,6 +52,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     class ReviewViewHolder extends RecyclerView.ViewHolder {
         TextView textReview;
+
         public ReviewViewHolder(View itemView) {
             super(itemView);
             textReview = (TextView) itemView.findViewById(R.id.item_review);
