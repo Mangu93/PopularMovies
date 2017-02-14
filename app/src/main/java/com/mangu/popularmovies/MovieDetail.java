@@ -196,7 +196,10 @@ public class MovieDetail extends AppCompatActivity implements DetailAdapter.Deta
         Uri uri = Uri.parse(base_url_youtube).buildUpon()
                 .appendQueryParameter(getString(R.string.youtube_watch_key_parameter),
                         url).build();
-        startActivity(new Intent(ACTION_VIEW, uri));
+        Intent outIntent = new Intent(ACTION_VIEW, uri);
+        if(outIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(outIntent);
+        }
     }
 
     private JSONObject getReviewsFromApi() {
